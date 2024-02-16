@@ -1,13 +1,25 @@
 import { useState } from "react";
-import Card from "./components/Card";
 import "./App.css";
+import UsersList from "./components/UsersList";
+import UsersForm from "./components/UsersForm";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState([]);
+
+  const storeUser = (newUser) => {
+    setUsers([...users, newUser]);
+  };
 
   return (
     <>
-      <Card />
+      <div className="container mx-auto">
+        <div className="flex gap-4">
+          <UsersForm saveHandler={storeUser} />
+        </div>
+        <div className="flex">
+          <UsersList usersData={users /*[]*/} />
+        </div>
+      </div>
     </>
   );
 }
