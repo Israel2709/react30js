@@ -1,13 +1,41 @@
-import { useState } from "react";
-import Card from "./components/Card";
+import {useEffect,useState} from 'react'
+import { getAllNames, saveName } from './api/namesApi'
 import "./App.css";
 
+
 function App() {
-  const [count, setCount] = useState(0);
+
+  const [names, setNames] = useState([])
+  const [newName,setNewName] = useState("")
+
+  useEffect(()=> {
+    console.log("usando efecto")
+    const getNames = async () => {
+      const allNames = await getAllNames()
+      setNames(allNames)
+    }
+    getNames()
+
+  },[])
+
+  const inputHandler = (event) => {
+    setNewName(event.target.value)
+  }
+
+  const saveNewName = async () => {
+    const response = await saveName(newName)
+    console.log( response)
+    const allNames = await getAllNames()
+    setNames(allNames)
+  }
 
   return (
     <>
-      <Card />
+      <input type="text" onChange={inputHandler} value={newName}/>
+      <button onClick={saveNewName}>Guardar nombre  </button>
+      <ul>
+        {names.map( ({key,name}) => <li key={key}>{name}</li>)}
+      </ul>
     </>
   );
 }
