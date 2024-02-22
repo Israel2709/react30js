@@ -23,6 +23,7 @@ export const UserForm = ({ saveHandler }) => {
     event.preventDefault();
     const userObject = { fullname, picture, abstract };
     const response = await saveUser(userObject);
+
     saveHandler();
   };
   return (
